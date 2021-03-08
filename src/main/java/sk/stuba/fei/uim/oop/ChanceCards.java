@@ -30,5 +30,9 @@ public class ChanceCards {
 
     }
 
+    public void shuffle(){
+        Collections.shuffle(cards);
+    }
+
 
 }
