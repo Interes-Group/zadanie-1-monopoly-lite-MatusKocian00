@@ -8,11 +8,7 @@ public class Square {
         this.name = name;
     }
 
-    public String getName (){return name;}
+    public String getName (){ return name;}
 
-    public String toString(){return name;}
-
-
-
-
+    public String toString() { return name; }
 }
