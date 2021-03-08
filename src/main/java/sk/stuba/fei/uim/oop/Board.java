@@ -1,6 +1,6 @@
 package sk.stuba.fei.uim.oop;
 
-public class doska {
+public class Board {
 
 
 }

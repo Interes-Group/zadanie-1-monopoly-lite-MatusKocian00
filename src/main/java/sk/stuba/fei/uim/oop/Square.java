@@ -1,10 +1,10 @@
 package sk.stuba.fei.uim.oop;
 
-public class policko {
+public class Square {
 
     private String name;
 
-    policko(String name){
+    Square(String name){
         this.name = name;
     }
 
