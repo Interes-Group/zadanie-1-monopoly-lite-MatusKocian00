@@ -10,7 +10,7 @@ public class ChanceCards {
     public final int PAY_FINE = 3;
     public final int GET_MONEY = 4;
     public final int GO_TO_JAIL = 5;
-    public final int GET_OF_JAIL = 6;
+    public final static int GET_OF_JAIL = 6;
 
     ArrayList<Card> cards = new ArrayList<>();
 
@@ -33,6 +33,5 @@ public class ChanceCards {
     public void shuffle(){
         Collections.shuffle(cards);
     }
-
 
 }

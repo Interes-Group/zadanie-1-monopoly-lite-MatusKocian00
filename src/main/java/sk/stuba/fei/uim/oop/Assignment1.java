@@ -7,5 +7,7 @@ public class Assignment1 {
         dice.diceRoll();
         System.out.print(dice.getDice());
 
+        ChanceDeck Cards = new ChanceDeck();
+
     }
 }
