@@ -10,7 +10,9 @@ public class Dice {
         dice = random.nextInt(6)+ 1;
     }
 
-    public int getDice(){return dice;}
+    public int numDice(){return dice;}
+
+
 
 }
 

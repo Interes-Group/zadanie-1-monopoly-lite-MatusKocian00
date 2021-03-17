@@ -96,6 +96,10 @@ public class Player {
         return card;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addCard(Card card) {
         cards.add(card);
 
@@ -114,6 +118,11 @@ public class Player {
     public int getBalance(){
         return balance;
     }
+
+
+    // Properties
+
+    public ArrayList<Property> getProperties(){return properties;}
 
 }
 

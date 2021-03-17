@@ -2,7 +2,7 @@ package sk.stuba.fei.uim.oop;
 
 public class Board {
 
-    public final int SQUARES_NUM = 20;
+    public final int SQUARES_NUM = 24;
 
     public final int POS_START = 0;
     public final int POS_JAIL = 5;

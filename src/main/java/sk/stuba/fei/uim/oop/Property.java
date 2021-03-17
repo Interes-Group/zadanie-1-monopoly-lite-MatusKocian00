@@ -31,4 +31,10 @@ public class Property extends Square{
     public Player getOwner() {
         return owner;
     }
+
+    public void releaseOwnership(){
+        isOwned = false;
+        owner = null;
+    }
 }
+

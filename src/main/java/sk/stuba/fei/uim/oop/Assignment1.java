@@ -2,12 +2,11 @@ package sk.stuba.fei.uim.oop;
 
 public class Assignment1 {
     public static void main(String[] args) {
-        Dice dice = new Dice();
+       Monopoly game = new Monopoly();
 
-        dice.diceRoll();
-        System.out.print(dice.getDice());
-
-        ChanceDeck Cards = new ChanceDeck();
-
+       game.inputNumOfPlayers();
+       game.inputNames();
+       game.giveStartMoney();
+       game.startDecide();
     }
 }
