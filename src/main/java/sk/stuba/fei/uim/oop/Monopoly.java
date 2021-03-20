@@ -54,7 +54,9 @@ public class Monopoly {
             cmd =  ZKlavesnice.readInt("Type your command ! [0] for help");
             switch (cmd) {
                 case 0:
-                    System.out.println("1 - BUY COMMAND \n 2 - ROLL DONE \n 3 - ROLL DICE \n 4 - SHOW MY PROPERTIES \n 5 - SHOW BALANCE \n 6 - BANKRUPT");
+                    System.out.println("1 - BUY COMMAND\n2 - ROLL DONE\n3 - ROLL DICE\n4 - SHOW MY PROPERTIES\n5 - SHOW BALANCE\n6 - BANKRUPT");
+                    inputValid = true;
+                    break;
                 case 1 :
                     commandId = 1; // buy
                     inputValid = true;
@@ -119,13 +121,13 @@ public class Monopoly {
                     currPlayer.addProperty(property);
                     displayLatestProperty(currPlayer);
                 } else {
-                    displayError("ERR_INSUFFICIENT_FUNDS");
+                    displayError("Not Enough money");
                 }
             } else {
-                displayError("ERR_IS_OWNED");
+                displayError("PROP_IS_OWNED");
             }
         } else {
-            displayError("ERR_NOT_A_PROPERTY");
+            displayError("This is not a property");
         }
         return;
     }
@@ -135,10 +137,10 @@ public class Monopoly {
             if (currPlayer.getBalance() >= 0) {
                 turnFinished = true;
             } else {
-                displayError("ERR_NEGATIVE_BALANCE");
+                displayError("negative balance");
             }
         } else {
-            displayError("ERR_NO_ROLL");
+            displayError("You didnt roll");
         }
     }
 
@@ -156,7 +158,6 @@ public class Monopoly {
 
     public void nextPlayer () {
         currPlayer = players.getNextPlayer(currPlayer);
-        System.out.println(currPlayer.getName()+ "'s turn");
     }
 
     public void decideWinner () {
@@ -309,6 +310,7 @@ public class Monopoly {
         turnFinished = false;
         rollDone = false;
         do{
+            System.out.println(currPlayer.getName()+ "'s turn");
             switch(inputCommand(currPlayer)){
                 case 1:
                     buyCommand();
@@ -324,8 +326,10 @@ public class Monopoly {
                     break;
                 case 5:
                     displayBalance(currPlayer);
+                    break;
                 case 6:
                     bankruptCommand();
+                    break;
 
             }
         } while(!turnFinished);
@@ -379,9 +383,10 @@ public class Monopoly {
 
     public void displaySquare(Player player) {
         Square square = board.getSquare(player.getPosition());
-        System.out.println(player.getName() + " arrives at " + square.getName());
+        System.out.println(player.getName() + " arrives at " + square.getName() ) ;
         if (square instanceof Property) {
             Property property = (Property) square;
+            System.out.println("Price - [" +property.getPrice() + "]  Rent - [" + property.getRent()+"]");
             if (property.isOwned()) {
                 System.out.println("The property is owned by " + property.getOwner() + ".");
             } else {
