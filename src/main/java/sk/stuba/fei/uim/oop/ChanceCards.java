@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class ChanceCards {
 
-    public final int GO_FORWARD = 1;
-    public final int GO_BACKWARD = 2;
-    public final int PAY_FINE = 3;
-    public final int GET_MONEY = 4;
-    public final int GO_TO_JAIL = 5;
+    public final static int GO_FORWARD = 1;
+    public final static int GO_BACKWARD = 2;
+    public final static int PAY_FINE = 3;
+    public final static int GET_MONEY = 4;
+    public final static int GO_TO_JAIL = 5;
     public final static int GET_OF_JAIL = 6;
 
     ArrayList<Card> cards = new ArrayList<>();

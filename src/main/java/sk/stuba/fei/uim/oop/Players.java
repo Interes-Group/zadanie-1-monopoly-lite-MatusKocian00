@@ -75,6 +75,6 @@ public class Players {
         }
         return player;
     }
-    public int numOfPlayer(){return players.size();}
+    public int numOfPlayers(){return players.size();}
 
 }

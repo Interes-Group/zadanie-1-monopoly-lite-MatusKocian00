@@ -122,7 +122,31 @@ public class Player {
 
     // Properties
 
-    public ArrayList<Property> getProperties(){return properties;}
+    public void addProperty (Property property) {
+        property.setOwner(this);
+        properties.add(property);
+        return;
+    }
+
+    public int getNumProperties () {
+        return properties.size();
+    }
+
+    public Property getLatestProperty () {
+        return properties.get(properties.size()-1);
+    }
+
+    public ArrayList<Property> getProperties () {
+        return properties;
+    }
+
+    public int getAssets () {
+        int assets = balance;
+        for (Property property: properties) {
+            assets = assets + property.getPrice();
+        }
+        return assets;
+    }
 
 }
 

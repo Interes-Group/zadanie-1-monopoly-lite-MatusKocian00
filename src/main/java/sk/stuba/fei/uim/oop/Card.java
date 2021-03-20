@@ -24,6 +24,9 @@ public class Card {
         return actionID;
     }
 
+    public int getSpaces(){
+        return parameter;
+    }
     public int getAmount(){
         return parameter;
     }
