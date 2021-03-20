@@ -42,16 +42,25 @@ public class Player {
 
     // Pohyb
 
-    public void move(int squares){
-        int check = (position + squares) / 24;
-        position = (position + squares) % 24;
-
-        passed = check == 1;
+    public void move (int squares) {
+        position = position + squares;
+        if (position >= 24) {
+            position = position -24;
+            passed = true;
+        } else {
+            passed = false;
+        }
+        if (position < 0) {
+            position = position + 24;
+        }
     }
 
-    public void moveTo(int square){
-
-        passed = square < position;
+    public void moveTo (int square) {
+        if (square < position) {
+            passed = true;
+        } else {
+            passed = false;
+        }
         position = square;
     }
 

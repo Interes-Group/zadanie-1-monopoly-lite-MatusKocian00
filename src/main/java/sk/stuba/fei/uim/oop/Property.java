@@ -35,8 +35,9 @@ public class Property extends Square{
         isOwned = true;
     }
 
-    public Player getOwner() {
-        return owner;
+    public Player getOwner () {return owner;}
+    public String getOwnerName() {
+        return owner.getName();
     }
 
     public void releaseOwnership(){

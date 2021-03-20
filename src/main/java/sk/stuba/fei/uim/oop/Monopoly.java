@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Monopoly {
 
     private int NUM_OF_PLAYERS = 0;
-    private int STARTING_MONEY = 500;
+    private int STARTING_MONEY = 750;
     private int START_MONEY = 200;
     private Players players = new Players();
     private Player currPlayer;
@@ -14,30 +14,33 @@ public class Monopoly {
     private Board board = new Board(dice);
     private ChanceDeck chanceDeck = new ChanceDeck();
     private ArrayList<String> names = new ArrayList<>();
-    private int[] cmds = {1,2,3,4,5,6};
     private int cmd;
-    private String string;
     private int commandId;
-    private boolean done;
     private boolean rollDone;
     private boolean turnFinished;
     private boolean gameOver;
     private boolean onlyOneNotBankrupt = false;
 
 
-    public void setNumOfPlayers() {
-        NUM_OF_PLAYERS = ZKlavesnice.readInt("Enter num of players");
+    public Monopoly() {
+        game();
     }
 
-    public int getNumOfPlayers() {
-        return NUM_OF_PLAYERS;
+    public void setNumOfPlayers() {
+        while (true) {
+            NUM_OF_PLAYERS = ZKlavesnice.readInt("Enter number of players. (2-6)");
+            if (NUM_OF_PLAYERS >= 2 && NUM_OF_PLAYERS <= 6) {
+                break;
+
+            }
+        }
     }
 
 
     public void inputName() {
         for (int i = 0; i < NUM_OF_PLAYERS; i++) {
             System.out.print("Enter name for " + (i + 1));
-            names.add(ZKlavesnice.readString(" player"));
+            names.add(ZKlavesnice.readString(" player."));
         }
     }
 
@@ -109,6 +112,9 @@ public class Monopoly {
                 rollDone = true;
             }
         }
+        else{
+            displayError("You rolled once, press ROLL DONE");
+        }
     }
 
     private void buyCommand () {
@@ -129,7 +135,6 @@ public class Monopoly {
         } else {
             displayError("This is not a property");
         }
-        return;
     }
 
     private void doneCommand () {
@@ -151,7 +156,7 @@ public class Monopoly {
         } else {
             System.out.println(player.getName() + " owns the following property...");
             for (Property p : propertyList) {
-                System.out.print(p.getName() + " ");
+                System.out.println(p.getName() + " ");
                 }
             }
         }
@@ -164,7 +169,7 @@ public class Monopoly {
         if (onlyOneNotBankrupt) {
             displayWinner(currPlayer);
         } else {
-            ArrayList<Player> playersWithMostAssets = new ArrayList<Player>();
+            ArrayList<Player> playersWithMostAssets = new ArrayList<>();
             int mostAssets = players.get(0).getAssets();
             for (Player player : players.get()) {
                 displayAssets(player);
@@ -367,7 +372,6 @@ public class Monopoly {
 
     public void displayDraw (ArrayList<Player> players) {
         System.out.println("The following players drew the game " + players + ".");
-        return;
     }
     public void displayDraw() {
         System.out.println("Draw");
@@ -383,12 +387,12 @@ public class Monopoly {
 
     public void displaySquare(Player player) {
         Square square = board.getSquare(player.getPosition());
-        System.out.println(player.getName() + " arrives at " + square.getName() ) ;
+        System.out.println(player.getName() + " arrives at " + square.getName()) ;
         if (square instanceof Property) {
             Property property = (Property) square;
             System.out.println("Price - [" +property.getPrice() + "]  Rent - [" + property.getRent()+"]");
             if (property.isOwned()) {
-                System.out.println("The property is owned by " + property.getOwner() + ".");
+                System.out.println("The property is owned by " + property.getOwnerName() + ".");
             } else {
                 System.out.println("The property is not owned.");
             }
@@ -424,6 +428,23 @@ public class Monopoly {
     }
     public void displayBankrupt (Player player) {
         System.out.println(player.getName() + " is bankrupt.");
+    }
+
+    public void game(){
+        System.out.println("Welcome in MONOPOLY lite");
+        System.out.println("When you finish round, press ROLL DONE command to proceed");
+        setNumOfPlayers();
+        inputNames();
+        giveStartMoney();
+        startDecide();
+        do{
+            processTurn();
+            if(!isGameOver()){
+                nextPlayer();
+            }
+        } while(!isGameOver());
+        decideWinner();
+        displayGameOver();
     }
 
 }
