@@ -343,9 +343,6 @@ public class Monopoly {
         }
     }
 
-
-
-
     public void processTurn(){
         turnFinished = false;
         rollDone = false;
@@ -369,13 +366,13 @@ public class Monopoly {
                     break;
                 case 6:
                     displayProperty(currPlayer);
+                    break;
                 case 7:
                     bankruptCommand();
                     break;
 
             }
         } while(!turnFinished);
-
     }
 
 
@@ -384,7 +381,7 @@ public class Monopoly {
 
     public void displayBankTransaction(Player player) {
         if (player.getTransaction() > 0) {
-        System.out.println(player.getName() + " receives " + player.getTransaction() + "from the bank.");
+        System.out.println(player.getName() + " receives " + player.getTransaction() + " from the bank.");
         }
         else if (player.getTransaction() == 0) {
         System.out.println("No money is transfered");
@@ -440,7 +437,7 @@ public class Monopoly {
     }
 
     public void displayPassed(Player player) {
-        System.out.print(player.getName() + " passed Start.");
+        System.out.println(player.getName() + " passed Start.");
     }
 
     public void displayFreeFromJail (Player player) {
