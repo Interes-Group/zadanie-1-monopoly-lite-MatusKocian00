@@ -470,9 +470,8 @@ public class Monopoly {
         System.out.println(player.getName() + " is bankrupt.");
     }
 
-    public void displayThreeDoubles (Player player) {
+    public void displayThreeSixes (Player player) {
         System.out.println(player.getName() + " rolled three sixes. Go to Jail.");
-        return;
     }
 
     public void game(){
