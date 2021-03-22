@@ -3,7 +3,7 @@ package sk.stuba.fei.uim.oop;
 import java.util.ArrayList;
 
 public class Players {
-    public final int MAX_PLAYERS = 4;
+    public final int MAX_PLAYERS = 6;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean playerWasRemoved = false;
 
@@ -20,9 +20,6 @@ public class Players {
         players.add(player);
     }
 
-    public boolean canAddPlayer () {
-        return players.size() < MAX_PLAYERS;
-    }
 
     public ArrayList<Player> get() {
         return players;

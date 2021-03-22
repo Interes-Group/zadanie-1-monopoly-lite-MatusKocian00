@@ -17,7 +17,7 @@ public class Board {
         squares[3] = new Property("Western part", 100,6);
         squares[4] = new Property("LalaLand",100,6);
         squares[5] = new Property("Diary Land",150,8);
-        squares[6] = new Square("JAIl");
+        squares[6] = new Square("JAIL/Just visit");
         squares[7] = new Chance();
         squares[8] = new Property("Kellys",180,14);
         squares[9] = new Property("Shelerton", 180,14);

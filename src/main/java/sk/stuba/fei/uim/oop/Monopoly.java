@@ -8,6 +8,9 @@ public class Monopoly {
     private int NUM_OF_PLAYERS = 0;
     private int STARTING_MONEY = 750;
     private int START_MONEY = 200;
+    private int doubleCount = 0;
+    private int JAIL_FINE = 100;
+
     private Players players = new Players();
     private Player currPlayer;
     private Dice dice = new Dice();
@@ -20,6 +23,7 @@ public class Monopoly {
     private boolean turnFinished;
     private boolean gameOver;
     private boolean onlyOneNotBankrupt = false;
+
 
 
     public Monopoly() {
@@ -57,23 +61,23 @@ public class Monopoly {
             cmd =  ZKlavesnice.readInt("Type your command ! [0] for help");
             switch (cmd) {
                 case 0:
-                    System.out.println("1 - BUY COMMAND\n2 - ROLL DONE\n3 - ROLL DICE\n4 - SHOW MY PROPERTIES\n5 - SHOW BALANCE\n6 - BANKRUPT");
+                    System.out.println("1 - DONE \n2 - ROLL\n3 - BUY\n4 - USE CARD\n5 - SHOW BALANCE\n6 - SHOW PROPERTIES\n7 - BANKRUPT/QUIT");
                     inputValid = true;
                     break;
                 case 1 :
-                    commandId = 1; // buy
+                    commandId = 1; // done
                     inputValid = true;
                     break;
                 case 2:
-                    commandId = 2; //pass
+                    commandId = 2; //roll
                     inputValid = true;
                     break;
                 case 3:
-                    commandId = 3; // useCard
+                    commandId = 3; // buy
                     inputValid = true;
                     break;
                 case 4:
-                    commandId = 4; // show properties
+                    commandId = 4; // card
                     inputValid = true;
                     break;
                 case 5:
@@ -81,7 +85,11 @@ public class Monopoly {
                     inputValid = true;
                     break;
                 case 6:
-                    commandId = 6; // bankrupt
+                    commandId = 6; // show prop
+                    inputValid = true;
+                    break;
+                case 7:
+                    commandId = 7; //quit/bankrupt
                     inputValid = true;
                     break;
             }
@@ -90,7 +98,7 @@ public class Monopoly {
     }
 
 
-    private void rollCommand() {
+    private void rollCommand () {
         if (!rollDone) {
             if (currPlayer.getBalance() >= 0) {
                 dice.diceRoll();
@@ -99,22 +107,40 @@ public class Monopoly {
                     currPlayer.move(dice.numDice());
                     checkPassedGo();
                     squareArrival();
+                    if (dice.numDice()==6) {
+                        System.out.println("You go once again !");
+                        doubleCount++;
+                        if (doubleCount == 3) {
+                            displayThreeDoubles(currPlayer);
+                            currPlayer.goToJail();
+                            rollDone = true;
+                        }
+                    } else {
+                        rollDone = true;
+                    }
+                } else {
+                    if (dice.numDice()==6) {
+                        currPlayer.freeFromJail();
+                        displayFreeFromJail(currPlayer);
+                    } else {
+                        currPlayer.failedJailAttempts();
+                        if (currPlayer.exceededExitJailAttempts()) {
+                            currPlayer.doTransaction(-JAIL_FINE);
+                            displayJailFine(currPlayer);
+                            currPlayer.freeFromJail();
+                            displayFreeFromJail(currPlayer);
+                        }
+                    }
+                    currPlayer.move(dice.numDice());
                     rollDone = true;
                 }
+            } else {
+                displayError("Negative Balance");
             }
-            else{
-                currPlayer.failedJailAttempts();
-                if(currPlayer.exceededExitJailAttempts()){
-                    currPlayer.freeFromJail();
-                    displayFreeFromJail(currPlayer);
-                }
-                currPlayer.move(dice.numDice());
-                rollDone = true;
-            }
+        } else {
+            displayError("You cant roll again, press DONE");
         }
-        else{
-            displayError("You rolled once, press ROLL DONE");
-        }
+
     }
 
     private void buyCommand () {
@@ -130,7 +156,7 @@ public class Monopoly {
                     displayError("Not Enough money");
                 }
             } else {
-                displayError("PROP_IS_OWNED");
+                displayError("Property is owned");
             }
         } else {
             displayError("This is not a property");
@@ -156,13 +182,14 @@ public class Monopoly {
         } else {
             System.out.println(player.getName() + " owns the following property...");
             for (Property p : propertyList) {
-                System.out.println(p.getName() + " ");
+                System.out.println(p.getName());
                 }
             }
         }
 
     public void nextPlayer () {
         currPlayer = players.getNextPlayer(currPlayer);
+        System.out.println("\n\n");
     }
 
     public void decideWinner () {
@@ -197,13 +224,6 @@ public class Monopoly {
             p.doTransaction(STARTING_MONEY);
         }
     }
-
-    public void checkPassedGo() {
-        if (currPlayer.getPassed()) {
-            currPlayer.doTransaction(+START_MONEY);
-        }
-    }
-
 
     public void startDecide() {
         Players inPlayers = new Players(players), selectedPlayers = new Players();
@@ -289,7 +309,7 @@ public class Monopoly {
                 break;
         }
     }
-    private void checkPassed () {
+    private void checkPassedGo () {
         if (currPlayer.getPassed()) {
             currPlayer.doTransaction(+START_MONEY);
             displayPassed(currPlayer);
@@ -308,6 +328,21 @@ public class Monopoly {
         }
     }
 
+    private void cardCommand () {
+        if (currPlayer.isInJail()) {
+            if (currPlayer.getOutOfJailCard()) {
+                Card card = currPlayer.getCard();
+                chanceDeck.addCard(card);
+                currPlayer.freeFromJail();
+                displayFreeFromJail(currPlayer);
+            } else {
+                displayError("You dont have get out of jail card");
+            }
+        } else {
+            displayError("You are not in prison");
+        }
+    }
+
 
 
 
@@ -318,21 +353,23 @@ public class Monopoly {
             System.out.println(currPlayer.getName()+ "'s turn");
             switch(inputCommand(currPlayer)){
                 case 1:
-                    buyCommand();
-                    break;
-                case 2:
                     doneCommand();
                     break;
-                case 3:
+                case 2:
                     rollCommand();
                     break;
+                case 3:
+                    buyCommand();
+                    break;
                 case 4:
-                    displayProperty(currPlayer);
+                    cardCommand();
                     break;
                 case 5:
                     displayBalance(currPlayer);
                     break;
                 case 6:
+                    displayProperty(currPlayer);
+                case 7:
                     bankruptCommand();
                     break;
 
@@ -387,7 +424,7 @@ public class Monopoly {
 
     public void displaySquare(Player player) {
         Square square = board.getSquare(player.getPosition());
-        System.out.println(player.getName() + " arrives at " + square.getName()) ;
+        System.out.println(player.getName() + " arrives at " + square.getName()+" (" + player.getPosition()+"/24)") ;
         if (square instanceof Property) {
             Property property = (Property) square;
             System.out.println("Price - [" +property.getPrice() + "]  Rent - [" + property.getRent()+"]");
@@ -411,6 +448,9 @@ public class Monopoly {
 
     }
 
+    public void displayJailFine (Player player) {
+        System.out.println(player.getName() + " pays fine of " + JAIL_FINE + " to leave jail.");
+    }
     public void displayError (String string) {
         System.out.println(string);
     }
@@ -428,6 +468,11 @@ public class Monopoly {
     }
     public void displayBankrupt (Player player) {
         System.out.println(player.getName() + " is bankrupt.");
+    }
+
+    public void displayThreeDoubles (Player player) {
+        System.out.println(player.getName() + " rolled three sixes. Go to Jail.");
+        return;
     }
 
     public void game(){
