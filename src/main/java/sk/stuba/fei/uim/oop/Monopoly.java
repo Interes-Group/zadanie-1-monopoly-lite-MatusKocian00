@@ -111,7 +111,7 @@ public class Monopoly {
                         System.out.println("You go once again !");
                         doubleCount++;
                         if (doubleCount == 3) {
-                            displayThreeDoubles(currPlayer);
+                            displayThreeSixes(currPlayer);
                             currPlayer.goToJail();
                             rollDone = true;
                         }
