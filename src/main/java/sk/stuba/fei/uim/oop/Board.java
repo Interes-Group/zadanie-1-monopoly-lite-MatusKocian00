@@ -4,9 +4,6 @@ public class Board {
 
     public final int SQUARES_NUM = 24;
 
-    public final int POS_START = 0;
-    public final int POS_JAIL = 5;
-
     private Square[] squares = new Square[SQUARES_NUM];
 
 

@@ -55,15 +55,6 @@ public class Player {
         }
     }
 
-    public void moveTo (int square) {
-        if (square < position) {
-            passed = true;
-        } else {
-            passed = false;
-        }
-        position = square;
-    }
-
     public boolean getPassed(){
         return passed;
     }

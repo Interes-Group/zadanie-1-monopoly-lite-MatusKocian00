@@ -18,10 +18,10 @@ public class ChanceDeck extends ChanceCards {
 
         // GAIN
         cards.add(new Card ("U FOUND 200$",GET_MONEY,200));
-        cards.add(new Card ("SUGAR DADDY GAVE U 500$",GET_MONEY,500));
+        cards.add(new Card ("SUGAR DADDY GAVE U 300$",GET_MONEY,500));
 
         //PAY
-        cards.add(new Card ("KID STOLE U 500$",PAY_FINE,500));
+        cards.add(new Card ("KID STOLE U 100$",PAY_FINE,500));
         cards.add(new Card ("WIFE BORROWED YOUR CREDIT CARD FOR HER NEW 200$ HANDBAG",PAY_FINE,200));
 
         shuffle();

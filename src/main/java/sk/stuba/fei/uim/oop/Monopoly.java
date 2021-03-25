@@ -8,7 +8,7 @@ public class Monopoly {
     private int NUM_OF_PLAYERS = 0;
     private int STARTING_MONEY = 750;
     private int START_MONEY = 200;
-    private int doubleCount = 0;
+    private int sixCount = 0;
     private int JAIL_FINE = 100;
 
     private Players players = new Players();
@@ -61,7 +61,7 @@ public class Monopoly {
             cmd =  ZKlavesnice.readInt("Type your command ! [0] for help");
             switch (cmd) {
                 case 0:
-                    System.out.println("1 - DONE \n2 - ROLL\n3 - BUY\n4 - USE CARD\n5 - SHOW BALANCE\n6 - SHOW PROPERTIES\n7 - BANKRUPT/QUIT");
+                    commandId = 0;
                     inputValid = true;
                     break;
                 case 1 :
@@ -109,8 +109,8 @@ public class Monopoly {
                     squareArrival();
                     if (dice.numDice()==6) {
                         System.out.println("You go once again !");
-                        doubleCount++;
-                        if (doubleCount == 3) {
+                        sixCount++;
+                        if (sixCount == 3) {
                             displayThreeSixes(currPlayer);
                             currPlayer.goToJail();
                             rollDone = true;
@@ -346,9 +346,13 @@ public class Monopoly {
     public void processTurn(){
         turnFinished = false;
         rollDone = false;
+        sixCount =0;
         do{
             System.out.println(currPlayer.getName()+ "'s turn");
             switch(inputCommand(currPlayer)){
+                case 0:
+                    System.out.println("1 - DONE \n2 - ROLL\n3 - BUY\n4 - USE CARD\n5 - SHOW BALANCE\n6 - SHOW PROPERTIES\n7 - BANKRUPT/QUIT");
+                    break;
                 case 1:
                     doneCommand();
                     break;
@@ -377,7 +381,7 @@ public class Monopoly {
 
 
 
-// Display Methonds //
+// Display Methods //
 
     public void displayBankTransaction(Player player) {
         if (player.getTransaction() > 0) {
